@@ -64,6 +64,25 @@
   --gradient-official: linear-gradient(145deg, oklch(0.68 0.17 240), oklch(0.45 0.2 262));
   --shadow-block: 0 6px 0 0 color-mix(in oklab, var(--foreground) 18%, transparent), 0 18px 40px -16px color-mix(in oklab, var(--primary) 45%, transparent);
   --shadow-soft: 0 20px 50px -24px color-mix(in oklab, var(--foreground) 35%, transparent);
+  --scene-sky: #b7e2ed;
+  --scene-water: #65b8c3;
+  --scene-grass: #78b96b;
+  --scene-grass-light: #a5cd77;
+  --scene-leaf: #3d916e;
+  --scene-rock: #728b92;
+  --scene-sand: #dcc7a0;
+  --scene-brick: #e78169;
+  --scene-shirt: #159792;
+  --scene-skin: #efbf91;
+  --scene-ink: #254447;
+  --scene-white: #fffaf0;
+  --scene-gold: #ffd36f;
+  --game-panel: oklch(0.985 0.012 170);
+  --game-ink: oklch(0.28 0.05 175);
+  --game-glass: color-mix(in oklab, var(--game-panel) 94%, transparent);
+  --game-shadow: 0 6px 24px color-mix(in oklab, var(--game-ink) 13%, transparent);
+  --game-overlay: color-mix(in oklab, var(--game-ink) 48%, transparent);
+  --game-lobby-wash: linear-gradient(90deg, color-mix(in oklab, var(--game-panel) 96%, transparent), color-mix(in oklab, var(--game-panel) 75%, transparent) 30%, transparent 64%);
 }
 
 @layer base {
@@ -98,4 +117,129 @@
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .float-slow { animation: none; }
+}
+
+/* Full-bleed playable prototype. All colors remain in semantic tokens. */
+.game-shell { position: relative; height: 100svh; min-height: 560px; overflow: hidden; color: var(--game-ink); background: var(--scene-sky); isolation: isolate; touch-action: none; }
+.game-scene { position: absolute; inset: 0; z-index: -2; }
+.game-lobby::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--game-lobby-wash); pointer-events: none; }
+.game-header { position: absolute; top: 0; left: 0; right: 0; display: flex; align-items: center; gap: 12px; padding: max(18px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-right)) 18px max(24px, env(safe-area-inset-left)); z-index: 5; }
+.game-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.game-dev { font-size: 11px; font-weight: 700; padding: 4px 8px; background: var(--warning); color: var(--warning-foreground); border-radius: 4px; white-space: nowrap; }
+.game-balance { display: flex; align-items: center; gap: 8px; margin-left: auto; padding: 10px 16px; background: var(--game-glass); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--game-shadow); white-space: nowrap; }
+.game-balance svg { width: 22px; color: var(--warning-foreground); }
+.game-balance strong { font-size: 20px; font-family: var(--font-display); }
+.game-balance span { font-size: 12px; }
+.lobby-content { position: absolute; left: max(6%, env(safe-area-inset-left)); top: 50%; transform: translateY(-50%); width: 380px; max-width: 88%; }
+.lobby-eyebrow { display: flex; gap: 14px; font-weight: 700; font-size: 12px; color: var(--primary); }
+.lobby-eyebrow span { color: var(--muted-foreground); }
+.lobby-content h1 { font-size: 56px; line-height: 1.25; font-weight: 900; margin-top: 14px; }
+.lobby-brand-title { font-size: 20px; margin-top: 8px; font-weight: 700; }
+.lobby-profile { display: flex; gap: 12px; align-items: center; margin-top: 30px; padding: 14px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.profile-icon { display: grid; place-items: center; width: 45px; height: 45px; background: var(--accent); border-radius: 8px; color: var(--accent-foreground); }
+.lobby-profile div:nth-child(2) { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.lobby-profile div:nth-child(2) span { font-size: 11px; color: var(--muted-foreground); }
+.lobby-profile strong { overflow-wrap: anywhere; }
+.local-label { margin-left: auto; font-size: 11px; color: var(--muted-foreground); white-space: nowrap; }
+.lobby-actions { display: grid; gap: 12px; margin-top: 22px; }
+.lobby-actions button { height: 56px; font-size: 16px; font-weight: 700; border-radius: 8px; }
+.lobby-actions .start-game { justify-content: flex-start; height: 66px; padding: 0 22px; font-size: 19px; box-shadow: var(--shadow-block); margin-bottom: 4px; }
+.lobby-actions .start-game svg { width: 20px; height: 20px; }
+.lobby-actions .start-arrow { margin-left: auto; transform: rotate(45deg); }
+.lobby-actions .create-map, .lobby-secondary button { background: var(--game-glass); }
+.lobby-secondary { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.lobby-status { display: flex; align-items: center; gap: 7px; margin-top: 24px; font-size: 12px; color: var(--muted-foreground); }
+.lobby-status > span { width: 6px; height: 6px; border-radius: 50%; background: var(--primary); }
+.game-footer { position: absolute; bottom: max(20px, env(safe-area-inset-bottom)); left: 6%; right: 4%; display: flex; justify-content: space-between; gap: 10px; font-size: 11px; color: var(--game-ink); }
+.scene-status { position: absolute; top: 90px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; background: var(--game-glass); padding: 10px 15px; border-radius: 8px; z-index: 6; font-size: 13px; }
+.scene-status svg { width: 16px; }
+.game-loading, .game-fallback { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 16px; background: var(--background); }
+.game-fallback { flex-direction: column; z-index: 30; text-align: center; padding: 24px; }
+.game-fallback h2 { font-weight: 900; font-size: 22px; }
+.world-location { position: absolute; top: 90px; left: 24px; display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-left: 3px solid var(--primary); background: var(--game-glass); border-radius: 4px; pointer-events: none; z-index: 2; }
+.world-location span { font-size: 11px; color: var(--muted-foreground); }
+.world-location strong { font-size: 14px; }
+.camera-zone { position: absolute; inset: 76px 0 0 30%; touch-action: none; cursor: grab; z-index: 1; }
+.camera-zone:active { cursor: grabbing; }
+.touch-stick { position: absolute; left: max(34px, env(safe-area-inset-left)); bottom: max(55px, calc(env(safe-area-inset-bottom) + 30px)); width: 132px; height: 132px; border: 2px solid var(--game-panel); background: color-mix(in oklab, var(--game-panel) 42%, transparent); border-radius: 50%; touch-action: none; user-select: none; z-index: 4; display: grid; place-items: center; }
+.stick-cross { font-size: 76px; font-weight: 300; color: color-mix(in oklab, var(--game-ink) 16%, transparent); line-height: 1; }
+.stick-thumb { position: absolute; width: 58px; height: 58px; border-radius: 50%; background: var(--game-glass); border: 2px solid var(--game-panel); box-shadow: var(--game-shadow); pointer-events: none; }
+.stick-label { position: absolute; bottom: -24px; font-size: 11px; font-weight: 700; }
+.touch-actions { position: absolute; right: max(34px, env(safe-area-inset-right)); bottom: max(55px, calc(env(safe-area-inset-bottom) + 30px)); display: flex; gap: 18px; align-items: flex-end; z-index: 4; }
+.touch-actions button { touch-action: none; box-shadow: var(--game-shadow); }
+.touch-actions .jump-control { width: 90px; height: 90px; border-radius: 50%; display: flex; flex-direction: column; gap: 0; font-weight: 700; }
+.touch-actions .jump-control svg { width: 28px; height: 28px; }
+.touch-actions .wave-control { width: 64px; height: 64px; border-radius: 50%; background: var(--game-glass); }
+.touch-actions .wave-control svg { width: 24px; height: 24px; }
+.back-editor { position: absolute; top: 154px; left: 24px; z-index: 4; background: var(--game-glass); }
+.editor-heading { position: absolute; top: 92px; left: 24px; pointer-events: none; }
+.editor-heading h1 { font-size: 25px; font-weight: 900; }
+.editor-heading span { font-size: 12px; }
+.editor-toolbar { position: absolute; bottom: max(45px, calc(env(safe-area-inset-bottom) + 20px)); left: 50%; transform: translateX(-50%); display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; padding: 14px; background: var(--game-glass); box-shadow: var(--game-shadow); border: 1px solid var(--border); border-radius: 8px; max-width: calc(100% - 24px); width: max-content; z-index: 4; }
+.editor-tools, .editor-commands { display: flex; gap: 6px; justify-content: center; }
+.editor-toolbar button { min-width: 44px; height: 48px; padding: 0 12px; }
+.block-swatch { display: inline-block; width: 16px; height: 16px; border-radius: 3px; border: 1px solid var(--border); }
+.swatch-grass { background: var(--scene-grass-light); }
+.swatch-stone { background: var(--scene-rock); }
+.swatch-brick { background: var(--scene-brick); }
+.game-modal-backdrop { position: absolute; inset: 0; z-index: 20; display: grid; place-items: center; padding: 24px; background: var(--game-overlay); backdrop-filter: blur(5px); }
+.game-modal { position: relative; width: 380px; max-width: 100%; max-height: calc(100svh - 48px); overflow-y: auto; background: var(--game-panel); color: var(--game-ink); border: 1px solid var(--border); border-radius: 8px; padding: 30px; box-shadow: var(--game-shadow); touch-action: pan-y; }
+.game-modal h2 { font-size: 27px; font-weight: 900; margin-bottom: 24px; }
+.modal-close { position: absolute; top: 12px; right: 12px; }
+.panel-kicker { font-size: 11px; font-weight: 700; color: var(--primary); }
+.game-modal label { font-size: 13px; font-weight: 700; display: block; margin-bottom: 8px; }
+.game-modal input { font-size: 16px; height: 46px; }
+.modal-avatar { display: grid; place-items: center; width: 70px; height: 70px; border-radius: 8px; background: var(--accent); margin-bottom: 20px; }
+.modal-avatar svg { width: 34px; height: 34px; }
+.panel-note { font-size: 12px; color: var(--muted-foreground); margin: 14px 0 22px; }
+.profile-coins { display: flex; align-items: center; gap: 10px; padding: 12px 0; margin-bottom: 16px; border-top: 1px solid var(--border); font-weight: 700; }
+.profile-coins svg { color: var(--warning-foreground); }
+.setting-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 0; border-bottom: 1px solid var(--border); }
+.setting-row > span { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 14px; }
+.setting-row svg { width: 18px; }
+.setting-row small { font-size: 10px; color: var(--muted-foreground); }
+.pause-actions { display: grid; gap: 12px; }
+.pause-actions button { height: 48px; }
+.game-toast { position: absolute; z-index: 25; top: 80px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 8px; padding: 12px 18px; font-size: 13px; background: var(--game-panel); border: 1px solid var(--border); border-radius: 8px; box-shadow: var(--game-shadow); max-width: calc(100% - 32px); width: max-content; }
+.game-toast svg { width: 18px; flex-shrink: 0; color: var(--primary); }
+@media (max-width: 600px) {
+  .game-header { padding: max(12px, env(safe-area-inset-top)) 12px 12px; gap: 6px; }
+  .game-brand { gap: 5px; font-size: 12px; }
+  .game-brand > button, .game-brand > a:first-child { width: 28px; }
+  .game-dev { font-size: 9px; padding: 3px 5px; }
+  .game-balance { padding: 7px 9px; gap: 5px; }
+  .game-balance strong { font-size: 17px; }
+  .game-balance span { display: none; }
+  .game-balance svg { width: 18px; }
+  .game-menu-button { width: 32px; height: 34px; }
+  .game-lobby::before { background: color-mix(in oklab, var(--game-panel) 75%, transparent); }
+  .lobby-content { left: 7%; top: 49%; width: 86%; }
+  .lobby-content h1 { font-size: 42px; }
+  .lobby-brand-title { font-size: 17px; }
+  .lobby-profile { margin-top: 22px; }
+  .lobby-actions button { height: 50px; }
+  .lobby-actions .start-game { height: 60px; }
+  .lobby-status { font-size: 11px; margin-top: 18px; }
+  .game-footer { font-size: 9px; left: 7%; right: 7%; }
+  .touch-stick { left: 20px; width: 116px; height: 116px; bottom: max(50px, calc(env(safe-area-inset-bottom) + 24px)); }
+  .touch-actions { right: 20px; gap: 12px; bottom: max(50px, calc(env(safe-area-inset-bottom) + 24px)); }
+  .touch-actions .jump-control { width: 76px; height: 76px; }
+  .touch-actions .wave-control { width: 58px; height: 58px; }
+  .world-location { top: 70px; left: 12px; padding: 8px 12px; }
+  .back-editor { top: 134px; left: 12px; }
+  .editor-heading { top: 72px; left: 16px; }
+  .editor-toolbar { width: 330px; gap: 8px; padding: 10px; }
+  .editor-toolbar button { height: 44px; padding: 0 10px; font-size: 12px; }
+}
+@media (max-height: 620px) and (min-width: 601px) {
+  .game-shell { min-height: 360px; }
+  .lobby-content { top: 56%; width: 320px; }
+  .lobby-content h1 { font-size: 30px; margin-top: 4px; }
+  .lobby-brand-title { display: none; }
+  .lobby-profile { margin-top: 10px; padding: 8px 0; }
+  .lobby-actions { gap: 8px; margin-top: 12px; }
+  .lobby-actions button, .lobby-actions .start-game { height: 42px; }
+  .lobby-status { margin-top: 12px; }
+  .game-footer { bottom: 8px; }
+  .touch-stick, .touch-actions { bottom: max(30px, env(safe-area-inset-bottom)); }
 }
