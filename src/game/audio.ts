@@ -6,7 +6,7 @@ export class GameAudio {
     try {
       this.context ??= new AudioContext();
       const ctx = this.context;
-      void ctx.resume();
+      void ctx.resume().catch(() => { /* Safari can lack an output device; keep the game playable. */ });
       const tone = ctx.createOscillator(); const gain = ctx.createGain();
       tone.type = 'sine'; tone.frequency.setValueAtTime(320, ctx.currentTime);
       tone.frequency.exponentialRampToValueAtTime(640, ctx.currentTime + .12);
@@ -15,5 +15,5 @@ export class GameAudio {
       tone.connect(gain); gain.connect(ctx.destination); tone.start(); tone.stop(ctx.currentTime + .2);
     } catch { /* Unsupported audio never prevents playing. */ }
   }
-  dispose() { void this.context?.close(); }
+  dispose() { void this.context?.close().catch(() => {}); }
 }
