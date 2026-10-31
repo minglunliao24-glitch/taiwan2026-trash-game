@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import heroIsland from "@/assets/hero-island.jpg";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -169,7 +170,7 @@ function Index() {
               { icon: "🏝️", t: "3D 沙盒島嶼", d: "每位玩家都從一座專屬的漂浮島嶼開始。" },
               { icon: "🧭", t: "自由探索", d: "山林、瀑布與隱藏角落，等你發現。" },
               { icon: "🧱", t: "創造地圖", d: "用方塊打造你的地圖，設計自己的玩法。", },
-              { icon: "🤝", t: "多人連線", d: "未來規劃與朋友一起遊玩（尚未開放）。", soon: true },
+                 { icon: "🤝", t: "多人連線", d: "開發中；目前提供單人本機原型。", soon: true },
             ].map((f) => (
               <div key={f.t} className="rounded-3xl border bg-card p-6 shadow-soft">
                 <div className="grid h-14 w-14 place-items-center rounded-2xl bg-muted text-3xl" aria-hidden="true">{f.icon}</div>
@@ -187,8 +188,8 @@ function Index() {
             <SectionTitle kicker="News" title="最新公告" />
             <ul className="space-y-4">
               {[
-                { tag: "開發進度", t: "預覽網站上線測試中", d: "這是測試預覽網站，用來展示遊戲方向，遊戲本體尚未開放。" },
-                { tag: "開發進度", t: "3D 島嶼原型製作中", d: "地形、方塊建造與角色移動正在開發，完成時間尚未確定。" },
+                 { tag: "開發進度", t: "單人原型開放試玩", d: "遊戲入口可進入大廳與漂浮島嶼；目前為開發中本機示範，非正式版。" },
+                 { tag: "開發進度", t: "本機地圖編輯器", d: "可放置與移除方塊、預覽地圖，儲存僅限這台裝置，尚無雲端分享。" },
                 { tag: "規劃中", t: "VIP 與網紅認證制度規劃", d: "相關制度仍在規劃，目前不接受申請或付款。" },
               ].map((n) => (
                 <li key={n.t} className="flex flex-col gap-2 rounded-2xl bg-card p-5 shadow-soft sm:flex-row sm:items-center sm:gap-5">
@@ -256,11 +257,9 @@ function Index() {
         <section id="play" className="mx-auto max-w-6xl px-4 py-20">
           <div className="rounded-3xl bg-brand p-8 text-center text-primary-foreground shadow-block md:p-14">
             <h2 className="text-3xl font-black md:text-4xl">遊戲入口</h2>
-            <p className="mx-auto mt-3 max-w-md opacity-90">遊戲仍在開發中，目前無法遊玩。開放時會在最新公告通知。</p>
+             <p className="mx-auto mt-3 max-w-md opacity-90">單人 3D 島嶼原型可試玩。地圖與個人資料僅為本機示範，遊戲仍在開發中。</p>
             <div className="mt-8 flex justify-center">
-              <button type="button" disabled aria-disabled="true" className="min-h-14 cursor-not-allowed rounded-2xl bg-card px-8 text-lg font-black text-foreground opacity-90">
-                開發中，尚未開放
-              </button>
+               <Button asChild variant="outline" className="min-h-14 px-8 text-lg font-black text-foreground"><Link to="/game">進入遊戲大廳</Link></Button>
             </div>
           </div>
         </section>
@@ -277,7 +276,7 @@ function Index() {
             <div className="rounded-3xl border bg-card p-6">
               <h3 className="text-xl font-bold">常見問題</h3>
               <ul className="mt-2 space-y-2 text-muted-foreground">
-                <li><b className="text-foreground">現在可以玩嗎？</b> 還不行，遊戲開發中。</li>
+                 <li><b className="text-foreground">現在可以玩嗎？</b> 可試玩單人原型，正式遊戲開發中。</li>
                 <li><b className="text-foreground">需要付費嗎？</b> 目前沒有任何付款功能。</li>
               </ul>
             </div>
@@ -293,7 +292,7 @@ function Index() {
           </div>
           <div>
             <p className="font-bold">隱私權說明</p>
-            <p className="mt-1 text-sm text-muted-foreground">本預覽網站不收集帳號或付款資料。正式隱私權政策準備中。</p>
+             <p className="mt-1 text-sm text-muted-foreground">原型不提供真實帳號或付款。遊戲名稱、設定與示範地圖僅儲存在本機。正式隱私權政策準備中。</p>
           </div>
           <nav aria-label="頁尾導覽">
             <ul className="grid grid-cols-2 gap-2 text-sm">
