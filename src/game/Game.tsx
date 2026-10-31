@@ -11,9 +11,9 @@ const Scene = lazy(() => import('./Scene'));
 const STORAGE = 'taiwan2026-local-demo-v1';
 type Panel = 'profile' | 'settings' | 'pause' | null;
 class SceneBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
-  state = { failed: false };
+  override state = { failed: false };
   static getDerivedStateFromError() { return { failed: true }; }
-  render() { return this.state.failed ? <div className="game-fallback"><h2>3D 畫面暫時無法載入</h2><p>請重新整理，或關閉其他分頁後再試。</p><Button onClick={() => window.location.reload()}><RotateCcw />重新載入</Button><Button asChild variant="outline"><Link to="/">返回官網</Link></Button></div> : this.props.children; }
+  override render() { return this.state.failed ? <div className="game-fallback"><h2>3D 畫面暫時無法載入</h2><p>請重新整理，或關閉其他分頁後再試。</p><Button onClick={() => window.location.reload()}><RotateCcw />重新載入</Button><Button asChild variant="outline"><Link to="/">返回官網</Link></Button></div> : this.props.children; }
 }
 export default function Game() {
   const [mode, setMode] = useState<GameMode>('lobby');

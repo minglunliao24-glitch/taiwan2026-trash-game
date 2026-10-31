@@ -70,7 +70,7 @@ function Island({ palette }: { palette: Palette }) {
     <mesh position={[0, -4, 0]}><cylinderGeometry args={[9, 2.5, 3.6, 9]} /><meshStandardMaterial color={palette.rock} flatShading /></mesh>
     <mesh position={[0, -8, 0]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[300, 300]} /><meshStandardMaterial color={palette.water} roughness={.3} metalness={.1} /></mesh>
     {/* Small voxel groves are deliberately generated scenery, not hero model stand-ins. */}
-    {[[-8, -6], [-10, 0], [8, -6], [9, 2], [-7, 6]].map(([x, z], i) => <group key={i} position={[x, 0, z]}>
+    {([[-8, -6], [-10, 0], [8, -6], [9, 2], [-7, 6]] as const).map(([x, z], i) => <group key={i} position={[x, 0, z]}>
       <mesh position={[0, 1, 0]} castShadow><boxGeometry args={[.38, 2, .38]} /><meshStandardMaterial color={palette.sand} /></mesh>
       <mesh position={[0, 2.35, 0]} castShadow><boxGeometry args={[2.2, 1.4, 2]} /><meshStandardMaterial color={palette.leaf} roughness={.9} /></mesh>
       <mesh position={[.15, 3.2, 0]} castShadow><boxGeometry args={[1.45, .65, 1.4]} /><meshStandardMaterial color={palette.grassLight} /></mesh>
@@ -83,13 +83,14 @@ function Island({ palette }: { palette: Palette }) {
       <mesh position={[0, .3, 0]}><cylinderGeometry args={[1.2, 1.5, .6, 6]} /><meshStandardMaterial color={palette.rock} /></mesh>
       <mesh position={[0, 1.8, 0]}><octahedronGeometry args={[.8]} /><meshStandardMaterial color={palette.gold} metalness={.35} roughness={.3} /></mesh>
     </group>
-    {[[-6, 10], [8, 8], [12, -5]].map(([x, z], i) => <mesh key={i} position={[x, -3, z]} rotation={[.3, i, .1]}><octahedronGeometry args={[1.5]} /><meshStandardMaterial color={palette.rock} flatShading /></mesh>)}
+    {([[-6, 10], [8, 8], [12, -5]] as const).map(([x, z], i) => <mesh key={i} position={[x, -3, z]} rotation={[.3, i, .1]}><octahedronGeometry args={[1.5]} /><meshStandardMaterial color={palette.rock} flatShading /></mesh>)}
     <mesh position={[0, .012, 7]} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[1.4, 1.6, 24]} /><meshBasicMaterial color={palette.white} /></mesh>
   </group>;
 }
 
 function WorldContents({ mode, blocks, controls, player, onCell, onReady }: SceneProps & { player: Player }) {
   const palette = usePalette(); const first = useRef(false); const editorMode = mode === 'editor';
+  useEffect(() => { first.current = false; }, [mode]);
   const target = useMemo(() => new THREE.Vector3(), []);
   const look = useMemo(() => new THREE.Vector3(), []);
   useFrame(({ camera }, delta) => {
@@ -132,7 +133,7 @@ export default function Scene(props: SceneProps) {
     const win = window as Window & { __game?: typeof game }; win.__game = game;
     return () => { delete win.__game; };
   }, [player, props.mode, props.blocks, props.controls]);
-  return <Canvas shadows dpr={[1, 1.4]} camera={{ fov: 48, near: .1, far: 250, position: [23, 17, 26] }} gl={{ antialias: true, powerPreference: 'high-performance' }} onCreated={({ gl }) => { gl.domElement.addEventListener('webglcontextlost', event => { event.preventDefault(); }); }}>
+  return <Canvas shadows={{ type: THREE.PCFShadowMap }} dpr={[1, 1.4]} camera={{ fov: 48, near: .1, far: 250, position: [23, 17, 26] }} gl={{ antialias: true, powerPreference: 'high-performance' }} onCreated={({ gl }) => { gl.domElement.addEventListener('webglcontextlost', event => { event.preventDefault(); }); }}>
     <WorldContents {...props} player={player} />
   </Canvas>;
 }
