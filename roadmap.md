@@ -8,7 +8,7 @@
 - [ ] Run full tests and inspect production-build verification; do not deploy.
 
 # Website administration
-- [ ] Confirm whether administrator profile fields are needed before authentication implementation.
+- [x] Confirm whether administrator profile fields are needed before authentication implementation: no profile fields.
 - [ ] Add secure administrator sign-in and role authorization at /admin without changing the game.
 - [ ] Create content tables, published-only read policies, admin CRUD policies and protected image uploads.
 - [ ] Build overview and announcement, release and event management with draft/publish/pin, search and category filters.

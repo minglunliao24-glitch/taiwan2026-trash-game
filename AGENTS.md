@@ -16,3 +16,9 @@
 - Keep scene material colors in `--scene-*` CSS tokens and UI colors in semantic theme tokens so art direction is centralized.
 - The deliberately voxel avatar and generated voxel groves use original geometry; no Roblox assets or logos are allowed.
 - Dev-only `window.__game` exposes live `state`, `controls`, `sim(seconds)` and `jump()` for deterministic checks; `[data-scene-ready="1"]` signals the first real scene frame.
+
+## Website CMS architecture
+- Website administration is separate from the local-only game: use authenticated server functions and database admin-role checks for all content operations so public visitors cannot mutate content.
+- Store roles independently from profiles; first admin bootstrap requires a confirmed account matching server-only ADMIN_BOOTSTRAP_EMAIL and an atomic service-only one-time database function to prevent public self-promotion.
+- Keep covers in a private bucket with published-content or admin read policies; never expose draft image URLs through a public bucket.
+- Public homepage content queries use an anonymous server client and published-only policies; show explicit errors rather than substitute invented content when reads fail.
