@@ -1,4 +1,7 @@
 # Playable game MVP
+- [ ] Add local garbage-sorting arcade at /game with lobby, timed rounds, combo scoring, keyboard/touch controls and results.
+- [ ] Connect homepage trial entrance without changing CMS, authentication or database configuration.
+- [ ] Verify arcade rules, complete desktop/mobile round and inspect current build diagnostics.
 - [x] Preserve website and link game entrance to /game lobby.
 - [x] Build touch/keyboard island exploration with avatar, jumping and camera.
 - [x] Build local grid editor, preview, profile and settings.
