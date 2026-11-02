@@ -83,6 +83,14 @@
   --game-shadow: 0 6px 24px color-mix(in oklab, var(--game-ink) 13%, transparent);
   --game-overlay: color-mix(in oklab, var(--game-ink) 48%, transparent);
   --game-lobby-wash: linear-gradient(90deg, color-mix(in oklab, var(--game-panel) 96%, transparent), color-mix(in oklab, var(--game-panel) 75%, transparent) 30%, transparent 64%);
+  --arcade-sky: oklch(0.93 0.055 210);
+  --arcade-ink: oklch(0.28 0.055 247);
+  --arcade-general: oklch(0.38 0.035 245);
+  --arcade-recycling: oklch(0.57 0.115 188);
+  --arcade-food: oklch(0.61 0.18 28);
+  --arcade-paper: oklch(0.99 0.009 95);
+  --arcade-shadow: 0 5px 0 var(--arcade-ink);
+  --arcade-wash: linear-gradient(90deg, var(--arcade-sky) 0%, color-mix(in oklab, var(--arcade-sky) 96%, transparent) 20%, color-mix(in oklab, var(--arcade-sky) 25%, transparent) 54%, transparent 70%);
 }
 
 @layer base {
@@ -242,4 +250,152 @@
   .lobby-status { margin-top: 12px; }
   .game-footer { bottom: 8px; }
   .touch-stick, .touch-actions { bottom: max(30px, env(safe-area-inset-bottom)); }
+}
+
+/* Local sorting arcade: styles are scoped away from the site and CMS. */
+.sorting-shell { min-height: 100svh; background: var(--arcade-paper); color: var(--arcade-ink); letter-spacing: 0; }
+.sorting-header { max-width: 1200px; margin: auto; min-height: 86px; display: flex; align-items: center; gap: 16px; padding: 16px 28px; border-bottom: 2px solid var(--arcade-ink); }
+.sorting-wordmark { font-weight: 900; font-size: 18px; line-height: 1.5; }
+.sorting-wordmark span { display: block; font-size: 11px; color: var(--muted-foreground); }
+.sorting-badge { background: var(--warning); color: var(--warning-foreground); border: 1px solid var(--arcade-ink); padding: 4px 10px; font-size: 11px; font-weight: 700; border-radius: 4px; }
+.sorting-header-actions { display: flex; margin-left: auto; gap: 4px; }
+.sorting-main { max-width: 1144px; margin: 0 auto; padding: 30px 24px 0; }
+.sorting-lobby-scene { position: relative; min-height: 570px; background: var(--arcade-sky); overflow: hidden; }
+.sorting-lobby-scene > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% center; }
+.sorting-lobby-scene::after { content: ''; position: absolute; inset: 0; background: var(--arcade-wash); pointer-events: none; }
+.sorting-lobby-copy { position: relative; z-index: 1; padding: 58px 36px; }
+.sorting-kicker { font-size: 12px; font-weight: 700; display: block; }
+.sorting-lobby-copy h1 { font-size: 58px; line-height: 1.15; font-weight: 900; margin-top: 20px; }
+.sorting-lobby-copy h1 > span { display: block; font-size: 20px; line-height: 1.7; margin-top: 18px; }
+.sorting-lobby-cta { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 32px; }
+.sorting-lobby-cta button { height: 54px; font-weight: 700; border-radius: 6px; }
+.sorting-start { background: var(--accent); color: var(--arcade-ink); border: 2px solid var(--arcade-ink); box-shadow: var(--arcade-shadow); min-height: 54px; padding: 0 22px; font-size: 17px; font-weight: 900; border-radius: 6px; }
+.sorting-start:hover { background: var(--warning); transform: translateY(-1px); }
+.sorting-scene-tag { position: absolute; z-index: 1; right: 22px; bottom: 20px; background: var(--arcade-paper); padding: 8px 14px; font-size: 12px; font-weight: 700; border: 1px solid var(--arcade-ink); transform: rotate(-3deg); }
+.sorting-lobby-bottom { display: grid; grid-template-columns: repeat(3,1fr); padding: 30px 0; border-bottom: 2px solid var(--arcade-ink); }
+.sorting-lobby-bottom > div { display: grid; grid-template-columns: 40px auto; gap: 2px 12px; align-items: center; padding: 0 24px; border-right: 1px solid var(--border); }
+.sorting-lobby-bottom > div:last-child { border: 0; }
+.sorting-lobby-bottom svg { grid-row: span 2; width: 32px; height: 32px; }
+.sorting-lobby-bottom strong { font-size: 20px; }
+.sorting-lobby-bottom span, .sorting-local-note { font-size: 12px; color: var(--muted-foreground); }
+.sorting-local-note { text-align: center; padding: 22px; }
+.sorting-footer { display: flex; justify-content: space-between; gap: 12px; max-width: 1144px; margin: auto; padding: 24px; font-size: 11px; color: var(--muted-foreground); }
+.sorting-playing { max-width: 930px; }
+.sorting-hud { display: grid; grid-template-columns: 1fr 1.2fr 1fr; border: 2px solid var(--arcade-ink); background: var(--card); border-radius: 6px; min-height: 98px; }
+.sorting-time, .sorting-combo { display: flex; gap: 10px; justify-content: center; align-items: center; }
+.sorting-time { border-right: 1px solid var(--border); }
+.sorting-time strong { font-family: var(--font-display); font-size: 42px; font-variant-numeric: tabular-nums; }
+.sorting-time span { font-size: 13px; }
+.sorting-time.urgent { color: var(--destructive); background: var(--warning); }
+.sorting-score { display: flex; flex-direction: column; justify-content: center; align-items: center; }
+.sorting-score span { font-size: 11px; }
+.sorting-score strong { font-family: var(--font-display); font-size: 40px; line-height: 1.2; font-variant-numeric: tabular-nums; }
+.sorting-combo { border-left: 1px solid var(--border); flex-wrap: wrap; gap: 4px 10px; align-content: center; }
+.sorting-combo > strong { font-family: var(--font-display); font-size: 30px; }
+.sorting-combo > svg { color: var(--arcade-food); }
+.sorting-combo > span { width: 100%; text-align: center; font-size: 11px; }
+.sorting-combo b { color: var(--arcade-recycling); }
+.sorting-level { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6px; padding: 18px 0 12px; font-size: 11px; }
+.sorting-level strong { color: var(--arcade-recycling); }
+.sorting-playfield { position: relative; background: var(--arcade-sky); overflow: hidden; min-height: 335px; border-top: 2px solid var(--arcade-ink); border-bottom: 2px solid var(--arcade-ink); }
+.sorting-street-strip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .18; }
+.sorting-item-area { position: relative; display: flex; flex-direction: column; align-items: center; padding: 22px 20px 0; animation: sorting-arrive .18s ease-out; }
+.sorting-item-label { font-size: 11px; font-weight: 700; background: var(--arcade-paper); border: 1px solid var(--arcade-ink); padding: 4px 12px; border-radius: 4px; }
+.sorting-item-emoji { font-size: 82px; line-height: 1.4; filter: drop-shadow(0 5px 0 color-mix(in oklab,var(--arcade-ink) 12%,transparent)); }
+.sorting-item-area h1 { font-size: 26px; font-weight: 900; text-align: center; }
+.sorting-item-timer { width: 220px; max-width: 80%; height: 7px; background: var(--card); border: 1px solid var(--arcade-ink); margin: 18px 0 12px; border-radius: 4px; overflow: hidden; }
+.sorting-item-timer span { display: block; height: 100%; background: var(--arcade-recycling); }
+.sorting-feedback { position: relative; display: flex; justify-content: center; align-items: center; gap: 5px; min-height: 42px; padding: 6px 12px 14px; font-size: 12px; text-align: center; font-weight: 700; }
+.sorting-feedback svg { width: 16px; flex-shrink: 0; }
+.sorting-feedback.good { color: var(--arcade-recycling); }
+.sorting-feedback.bad { color: var(--destructive); }
+.sorting-bins { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; padding-top: 24px; }
+.sorting-bin { --bin-color: var(--arcade-general); position: relative; display: flex; height: 188px; flex-direction: column; white-space: normal; gap: 8px; padding: 20px 8px 0; border: 2px solid var(--arcade-ink); border-top: 8px solid var(--bin-color); border-radius: 6px; box-shadow: var(--arcade-shadow); background: var(--card); touch-action: manipulation; user-select: none; }
+.sorting-bin.bin-recycling { --bin-color: var(--arcade-recycling); }
+.sorting-bin.bin-food { --bin-color: var(--arcade-food); }
+.sorting-bin > svg { width: 32px; height: 32px; color: var(--bin-color); }
+.sorting-bin strong { font-size: 20px; }
+.sorting-bin-key { position: absolute; right: 10px; top: 10px; display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid var(--border); font-family: var(--font-display); font-size: 13px; border-radius: 3px; color: var(--muted-foreground); }
+.sorting-bin-sample { font-size: 10px; color: var(--muted-foreground); }
+.sorting-bin-bottom { display: flex; align-items: center; justify-content: center; gap: 8px; width: calc(100% + 16px); background: var(--bin-color); color: var(--primary-foreground); margin-top: auto; min-height: 35px; font-size: 11px; }
+.sorting-bin-bottom svg { width: 13px; }
+.sorting-bin:hover { background: var(--muted); transform: translateY(-2px); }
+.sorting-bin:active { transform: translateY(4px); box-shadow: none; }
+.sorting-keyboard-note { font-size: 11px; text-align: center; padding: 24px 0 8px; color: var(--muted-foreground); }
+.sorting-results { text-align: center; padding: 36px 0 50px; }
+.sorting-trophy { width: 72px; height: 72px; color: var(--warning-foreground); padding: 14px; background: var(--accent); border: 2px solid var(--arcade-ink); border-radius: 50%; margin: 0 auto 20px; }
+.sorting-results h1 { font-size: 30px; font-weight: 900; margin-top: 16px; outline: none; }
+.sorting-result-score { display: block; font-family: var(--font-display); font-size: 84px; line-height: 1.2; margin: 24px 0; }
+.sorting-result-score small { display: block; font-family: var(--font-sans); font-size: 12px; }
+.sorting-result-stats { display: grid; grid-template-columns: repeat(3,1fr); max-width: 580px; margin: auto; padding: 24px 0; border-top: 2px solid var(--arcade-ink); border-bottom: 2px solid var(--arcade-ink); }
+.sorting-result-stats > div { display: flex; flex-direction: column; gap: 8px; }
+.sorting-result-stats strong { font-family: var(--font-display); font-size: 30px; }
+.sorting-result-stats span, .sorting-result-note { font-size: 12px; color: var(--muted-foreground); }
+.sorting-result-note { margin-top: 16px; }
+.sorting-result-actions { display: flex; gap: 14px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 30px; }
+.sorting-result-actions > button { min-height: 54px; }
+.sorting-dialog { max-width: min(520px, calc(100% - 24px)); max-height: calc(100svh - 32px); overflow-y: auto; border: 2px solid var(--arcade-ink); border-radius: 8px; background: var(--arcade-paper); }
+.sorting-instructions { display: grid; gap: 16px; padding-left: 20px; list-style: decimal; font-size: 14px; line-height: 1.8; }
+.sorting-instructions b { display: block; }
+.sorting-examples { display: grid; gap: 10px; }
+.sorting-examples > div { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; font-size: 12px; }
+.sorting-examples svg { width: 18px; }
+.sorting-examples span { color: var(--muted-foreground); }
+@keyframes sorting-arrive { from { opacity: .5; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .sorting-item-area { animation: none; } }
+@media (max-width: 600px) {
+  .sorting-header { padding: 12px; gap: 8px; min-height: 72px; }
+  .sorting-wordmark { font-size: 14px; }
+  .sorting-wordmark span { font-size: 10px; }
+  .sorting-badge { font-size: 9px; padding: 3px 6px; }
+  .sorting-header > a:first-child { width: 28px; }
+  .sorting-header-actions button { width: 32px; }
+  .sorting-main { padding: 18px 16px 0; }
+  .sorting-lobby-scene { min-height: 530px; }
+  .sorting-lobby-scene > img { height: 300px; top: auto; bottom: 0; object-position: center; }
+  .sorting-lobby-scene::after { background: none; }
+  .sorting-lobby-copy { padding: 24px 20px; }
+  .sorting-lobby-copy h1 { font-size: 38px; margin-top: 12px; }
+  .sorting-lobby-copy h1 > span { font-size: 15px; margin-top: 12px; }
+  .sorting-lobby-cta { gap: 10px; margin-top: 20px; }
+  .sorting-lobby-cta button { height: 48px; min-height: 48px; font-size: 13px; padding: 0 12px; }
+  .sorting-scene-tag { right: 12px; bottom: 12px; font-size: 10px; }
+  .sorting-lobby-bottom { padding: 20px 0; }
+  .sorting-lobby-bottom > div { display: flex; flex-direction: column; padding: 0 4px; text-align: center; gap: 8px; }
+  .sorting-lobby-bottom svg { width: 24px; height: 24px; }
+  .sorting-lobby-bottom strong { font-size: 15px; }
+  .sorting-lobby-bottom span { font-size: 10px; }
+  .sorting-local-note { font-size: 10px; padding: 18px 0 0; }
+  .sorting-hud { min-height: 82px; }
+  .sorting-time { gap: 4px; }
+  .sorting-time svg { width: 16px; }
+  .sorting-time strong { font-size: 34px; }
+  .sorting-score strong { font-size: 30px; }
+  .sorting-combo { gap: 0 5px; }
+  .sorting-combo > svg { width: 18px; }
+  .sorting-combo > strong { font-size: 25px; }
+  .sorting-playfield { min-height: 286px; }
+  .sorting-item-area { padding-top: 16px; }
+  .sorting-item-emoji { font-size: 70px; }
+  .sorting-item-area h1 { font-size: 22px; }
+  .sorting-feedback { font-size: 11px; }
+  .sorting-bins { gap: 10px; padding-top: 18px; }
+  .sorting-bin { height: 156px; padding-top: 16px; gap: 6px; }
+  .sorting-bin > svg { width: 26px; height: 26px; }
+  .sorting-bin strong { font-size: 15px; }
+  .sorting-bin-key { display: none; }
+  .sorting-bin-sample { display: none; }
+  .sorting-bin-bottom { font-size: 10px; }
+  .sorting-keyboard-note { font-size: 10px; padding-top: 20px; }
+  .sorting-footer { padding: 20px 16px; font-size: 9px; }
+  .sorting-results { padding-top: 20px; }
+  .sorting-results h1 { font-size: 24px; }
+  .sorting-result-score { font-size: 64px; }
+}
+@media (max-height: 600px) and (min-width: 601px) {
+  .sorting-hud { min-height: 64px; }
+  .sorting-playfield { min-height: 240px; }
+  .sorting-item-emoji { font-size: 56px; }
+  .sorting-bin { height: 135px; padding-top: 8px; }
+  .sorting-bin-sample { display: none; }
 }
