@@ -1,16 +1,15 @@
 # Playable game MVP
-- [ ] Add local garbage-sorting arcade at /game with lobby, timed rounds, combo scoring, keyboard/touch controls and results.
-- [ ] Connect homepage trial entrance without changing CMS, authentication or database configuration.
-- [ ] Verify arcade rules, complete desktop/mobile round and inspect current build diagnostics.
+- [x] Add local garbage-sorting arcade at /game with lobby, timed rounds, combo scoring, keyboard/touch controls and results.
+- [x] Connect homepage trial entrance without changing CMS, authentication or database configuration.
+- [x] Verify arcade rules, complete desktop/mobile round and inspect current build diagnostics.
 - [x] Preserve website and link game entrance to /game lobby.
 - [x] Build touch/keyboard island exploration with avatar, jumping and camera.
 - [x] Build local grid editor, preview, profile and settings.
 - [x] Verify rules, public-to-game flow and desktop/mobile rendering.
-- [ ] Refresh trial status and direct official entrance links; remove unavailable music control.
-- [ ] Recheck stacking, storage and keyboard/touch behavior with regressions.
-- [ ] Run full tests and inspect production-build verification; do not deploy.
+Legacy sandbox follow-up is deferred: the active game direction is now the sorting arcade; sandbox source remains intact but is not loaded at /game.
 
 # Website administration
+Prior CMS completion and authenticated verification remain deferred by the user's explicit instruction not to change the backend this round.
 - [x] Confirm whether administrator profile fields are needed before authentication implementation: no profile fields.
 - [ ] Add secure administrator sign-in and role authorization at /admin without changing the game.
 - [ ] Create content tables, published-only read policies, admin CRUD policies and protected image uploads.
