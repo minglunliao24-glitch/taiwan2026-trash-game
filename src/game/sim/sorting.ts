@@ -13,7 +13,7 @@ export const ITEMS = [
 ] as const;
 export type SortItem = typeof ITEMS[number];
 export type Round = { elapsed: number; itemAge: number; item: SortItem; score: number; combo: number; bestCombo: number; correct: number; wrong: number; missed: number; ended: boolean; sequence: number };
-export function pickItem(random = Math.random): SortItem { return ITEMS[Math.min(ITEMS.length - 1, Math.max(0, Math.floor(random() * ITEMS.length)))]; }
+export function pickItem(random = Math.random): SortItem { return ITEMS[Math.min(ITEMS.length - 1, Math.max(0, Math.floor(random() * ITEMS.length)))] ?? ITEMS[0]; }
 export function createRound(random = Math.random): Round { return { elapsed: 0, itemAge: 0, item: pickItem(random), score: 0, combo: 0, bestCombo: 0, correct: 0, wrong: 0, missed: 0, ended: false, sequence: 0 }; }
 export function itemLimit(elapsed: number) { return Math.max(2, 5 - Math.floor(elapsed / 15)); }
 export function multiplier(combo: number) { return Math.min(4, 1 + Math.floor(combo / 5)); }
