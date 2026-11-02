@@ -6,10 +6,10 @@ import { Button } from "@/components/ui/button";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "台灣2026廢遊戲｜打造你的世界（開發中預覽）" },
-      { name: "description", content: "台灣2026廢遊戲：3D 沙盒島嶼，探索、創造地圖，未來支援多人連線。目前開發中，尚未開放。" },
+      { title: "台灣2026廢遊戲｜垃圾分類街機試玩版" },
+      { name: "description", content: "台灣2026廢遊戲官方預覽網站，垃圾分類街機試玩版現已可玩，保留沙盒開發介紹與最新公告。" },
       { property: "og:title", content: "台灣2026廢遊戲｜打造你的世界" },
-      { property: "og:description", content: "3D 沙盒島嶼遊戲，開發中預覽網站，尚未正式上線。" },
+      { property: "og:description", content: "60 秒垃圾分類街機可試玩；沙盒企劃持續開發，查看最新公告與官方介紹。" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -144,9 +144,7 @@ function Index() {
                 在漂浮的 3D 沙盒島嶼上自由探索、蓋房子、設計地圖。台灣2026廢遊戲正在努力開發中。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#play" className="inline-flex min-h-12 items-center rounded-2xl bg-brand px-6 font-bold text-primary-foreground shadow-block">
-                  查看遊戲入口
-                </a>
+                <Button asChild className="min-h-12 px-6 font-bold shadow-block"><Link to="/game">開始遊玩</Link></Button>
                 <a href="#intro" className="inline-flex min-h-12 items-center rounded-2xl border-2 border-foreground/15 bg-card px-6 font-bold">
                   了解遊戲
                 </a>
@@ -165,6 +163,7 @@ function Index() {
         {/* Intro */}
         <section id="intro" className="mx-auto max-w-6xl px-4 py-20">
           <SectionTitle kicker="About" title="遊戲介紹" />
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b pb-6"><div><h3 className="text-xl font-black">垃圾車來了！分類街機試玩版</h3><p className="mt-2 text-muted-foreground">60 秒收集垃圾、選對分類桶，連擊越高分數越高。原有沙盒企劃持續開發中。</p></div><Button asChild><Link to="/game">開始遊玩</Link></Button></div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {[
               { icon: "🏝️", t: "3D 沙盒島嶼", d: "每位玩家都從一座專屬的漂浮島嶼開始。" },
@@ -257,9 +256,9 @@ function Index() {
         <section id="play" className="mx-auto max-w-6xl px-4 py-20">
           <div className="rounded-3xl bg-brand p-8 text-center text-primary-foreground shadow-block md:p-14">
             <h2 className="text-3xl font-black md:text-4xl">遊戲入口</h2>
-             <p className="mx-auto mt-3 max-w-md opacity-90">單人 3D 島嶼原型可試玩。地圖與個人資料僅為本機示範，遊戲仍在開發中。</p>
+             <p className="mx-auto mt-3 max-w-md opacity-90">垃圾分類街機・試玩版。60 秒挑戰一般垃圾、資源回收與廚餘分類；不需帳號、不需付費。</p>
             <div className="mt-8 flex justify-center">
-               <Button asChild variant="outline" className="min-h-14 px-8 text-lg font-black text-foreground"><Link to="/game">進入遊戲大廳</Link></Button>
+               <Button asChild variant="outline" className="min-h-14 px-8 text-lg font-black text-foreground"><Link to="/game">開始遊玩</Link></Button>
             </div>
           </div>
         </section>
