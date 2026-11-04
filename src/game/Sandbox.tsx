@@ -49,6 +49,8 @@ export default function Sandbox() {
     });
     setNotice(remove ? '已拆除目標最上層方塊；空格不會改變。' : '已放置方塊；每格最多堆疊四層。');
   }, [started, help, reset, failed, aim, tool]);
+  const action = useRef(act);
+  useEffect(() => { action.current = act; }, [act]);
   useEffect(() => {
     const clear = () => { controls.keys.clear(); controls.jump = false; controls.touch = { x: 0, y: 0 }; stickId.current = null; camera.current = null; if (stick.current) stick.current.style.transform = ''; };
     controls.paused = help || reset || !started || Boolean(failed); clear();
@@ -56,8 +58,8 @@ export default function Sandbox() {
       if (controls.paused) return;
       if (['Space', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) e.preventDefault();
       if (e.code === 'Space' && !e.repeat) controls.jump = true;
-      else if (e.code === 'KeyE' && !e.repeat) act(false);
-      else if (e.code === 'KeyQ' && !e.repeat) act(true);
+      else if (e.code === 'KeyE' && !e.repeat) action.current(false);
+      else if (e.code === 'KeyQ' && !e.repeat) action.current(true);
       else if (e.code === 'Digit1') setTool('grass');
       else if (e.code === 'Digit2') setTool('stone');
       else if (e.code === 'Digit3') setTool('brick');
@@ -68,7 +70,7 @@ export default function Sandbox() {
     const lost = () => setFailed('3D 畫面已中斷；已儲存的世界仍保留，請重新載入。');
     window.addEventListener('keydown', down); window.addEventListener('keyup', up); window.addEventListener('blur', clear); document.addEventListener('visibilitychange', clear); window.addEventListener('webglcontextlost', lost, true);
     return () => { window.removeEventListener('keydown', down); window.removeEventListener('keyup', up); window.removeEventListener('blur', clear); document.removeEventListener('visibilitychange', clear); window.removeEventListener('webglcontextlost', lost, true); };
-  }, [controls, started, help, reset, failed, act]);
+  }, [controls, started, help, reset, failed]);
   useEffect(() => { if (!notice) return; const timer = setTimeout(() => setNotice(''), 4000); return () => clearTimeout(timer); }, [notice]);
   function move(e: PointerEvent<HTMLDivElement>) {
     if (stickId.current !== e.pointerId) return;
