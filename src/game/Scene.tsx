@@ -3,6 +3,7 @@ import { Canvas, useFrame } from '@react-three/fiber';
 import { Environment, Lightformer } from '@react-three/drei';
 import * as THREE from 'three';
 import { createPlayer, movementInput, stepPlayer, type Block, type BlockKind, type Player } from './sim/rules';
+import { aimCell } from './sim/sandbox';
 
 export type GameMode = 'lobby' | 'world' | 'editor' | 'preview';
 export type Controls = { keys: Set<string>; touch: { x: number; y: number }; jump: boolean; yaw: number; pitch: number; wave: number; paused: boolean };
@@ -88,8 +89,9 @@ function Island({ palette }: { palette: Palette }) {
   </group>;
 }
 
-function WorldContents({ mode, blocks, controls, player, onCell, onReady }: SceneProps & { player: Player }) {
+function WorldContents({ mode, blocks, controls, player, onCell, onReady, building, onAim }: SceneProps & { player: Player }) {
   const palette = usePalette(); const first = useRef(false); const editorMode = mode === 'editor';
+  const marker = useRef<THREE.Mesh>(null); const lastAim = useRef('');
   useEffect(() => { first.current = false; }, [mode]);
   const target = useMemo(() => new THREE.Vector3(), []);
   const look = useMemo(() => new THREE.Vector3(), []);
@@ -108,6 +110,14 @@ function WorldContents({ mode, blocks, controls, player, onCell, onReady }: Scen
     else { target.set(23, 17, 26); look.set(-1, 0, 0); }
     camera.position.lerp(target, first.current ? 1 - Math.exp(-9 * dt) : 1); camera.lookAt(look);
     avatarHandles.get(player)?.();
+    if (building) {
+      const cell = aimCell(player, controls.yaw); const key = cell ? `${cell.x}/${cell.z}` : '';
+      if (key !== lastAim.current) { lastAim.current = key; onAim?.(cell); }
+      if (marker.current) {
+        marker.current.visible = Boolean(cell);
+        if (cell) { const stack = blocks.filter(b => b.x === cell.x && b.z === cell.z); const height = stack.length ? Math.max(...stack.map(b => b.level + 1)) * .8 : 0; marker.current.position.set(cell.x - 4.5, height + .04, cell.z - 4.5); }
+      }
+    }
     if (!first.current) { first.current = true; onReady(); }
   });
   const blockColor: Record<BlockKind, string> = { grass: palette.grassLight, stone: palette.rock, brick: palette.brick };
@@ -118,15 +128,20 @@ function WorldContents({ mode, blocks, controls, player, onCell, onReady }: Scen
     <directionalLight position={[12, 20, 8]} intensity={2.5} castShadow shadow-mapSize={[1024, 1024]} shadow-camera-left={-18} shadow-camera-right={18} shadow-camera-top={18} shadow-camera-bottom={-18} shadow-bias={-.001} />
     <Suspense fallback={null}><Environment resolution={32}><Lightformer position={[0, 12, 0]} rotation={[-Math.PI / 2, 0, 0]} scale={[20, 20, 1]} intensity={1.5} color={palette.white} /><Lightformer position={[-10, 4, 0]} rotation={[0, Math.PI / 2, 0]} scale={[10, 10, 1]} color={palette.sky} intensity={1} /></Environment></Suspense>
     <Island palette={palette} />
+    {building && <>
+      <mesh position={[0, .018, 0]} rotation={[-Math.PI / 2, 0, 0]}><planeGeometry args={[10, 10]} /><meshStandardMaterial color={palette.grassLight} roughness={1} transparent opacity={.22} /></mesh>
+      <gridHelper args={[10, 10, palette.white, palette.leaf]} position={[0, .025, 0]} />
+      <mesh ref={marker} rotation={[-Math.PI / 2, 0, 0]}><ringGeometry args={[.3, .47, 4]} /><meshBasicMaterial color={palette.gold} side={THREE.DoubleSide} /></mesh>
+    </>}
     {editorMode && Array.from({ length: 100 }, (_, i) => { const x = i % 10, z = Math.floor(i / 10); return <mesh key={i} position={[x - 4.5, .035, z - 4.5]} rotation={[-Math.PI / 2, 0, 0]} onPointerDown={e => { e.stopPropagation(); onCell(x, z); }}><planeGeometry args={[.94, .94]} /><meshStandardMaterial color={(x + z) % 2 ? palette.grass : palette.grassLight} /></mesh>; })}
     {blocks.map(b => <mesh key={`${b.x}/${b.z}/${b.level}`} position={[b.x - 4.5, b.level * .8 + .4, b.z - 4.5]} castShadow receiveShadow onPointerDown={e => { if (editorMode) { e.stopPropagation(); onCell(b.x, b.z); } }}><boxGeometry args={[.96, .8, .96]} /><meshStandardMaterial color={blockColor[b.kind]} roughness={b.kind === 'stone' ? .6 : .9} /></mesh>)}
     {!editorMode && <VoxelAvatar palette={palette} player={player} controls={controls} />}
   </>;
 }
-type SceneProps = { mode: GameMode; blocks: Block[]; controls: Controls; onCell: (x: number, z: number) => void; onReady: () => void };
+type SceneProps = { mode: GameMode; blocks: Block[]; controls: Controls; onCell: (x: number, z: number) => void; onReady: () => void; building?: boolean; onAim?: (cell: { x: number; z: number } | null) => void };
 export default function Scene(props: SceneProps) {
   const player = useMemo(() => createPlayer(), []);
-  useEffect(() => { Object.assign(player, createPlayer()); props.controls.keys.clear(); props.controls.touch = { x: 0, y: 0 }; props.controls.yaw = 0; }, [props.mode, player, props.controls]);
+  useEffect(() => { Object.assign(player, createPlayer(), props.building ? { z: 6 } : {}); props.controls.keys.clear(); props.controls.touch = { x: 0, y: 0 }; props.controls.yaw = 0; }, [props.mode, player, props.controls, props.building]);
   useEffect(() => {
     if (!import.meta.env.DEV) return;
     const game = { get state() { return { ...player, mode: props.mode }; }, sim(seconds: number) { for (let i = 0; i < Math.min(seconds * 60, 3600); i++) { const input = movementInput(props.controls.keys, props.controls.touch); input.jump ||= props.controls.jump; stepPlayer(player, input, props.controls.yaw, 1 / 60, props.blocks); props.controls.jump = false; } }, jump() { props.controls.jump = true; }, get controls() { return { touch: props.controls.touch, yaw: props.controls.yaw }; } };
