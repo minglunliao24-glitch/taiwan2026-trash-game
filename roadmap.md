@@ -1,4 +1,6 @@
 # Playable game MVP
+- [ ] Add independent single-player sandbox entrance and playable exploration/building HUD without changing arcade or CMS.
+- [ ] Verify sandbox persistence, reset, desktop controls, mobile layout and WebGL fallbacks.
 - [x] Add local garbage-sorting arcade at /game with lobby, timed rounds, combo scoring, keyboard/touch controls and results.
 - [x] Connect homepage trial entrance without changing CMS, authentication or database configuration.
 - [x] Verify arcade rules, complete desktop/mobile round and inspect current build diagnostics.
