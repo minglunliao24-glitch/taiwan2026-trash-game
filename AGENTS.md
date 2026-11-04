@@ -12,6 +12,7 @@
 ## Game architecture
 - Keep the official site at `/` and the client-only game at `/game`; the lobby must be the initial game view.
 - The active /game experience is the local sorting arcade; retain legacy sandbox files without loading them in the arcade. Keep scoring and time rules pure in src/game/sim for WebGL-independent tests.
+- Keep the additive single-player building sandbox at `/sandbox`, sharing the legacy R3F scene without loading it in `/game`; its versioned world save is independent of other demo data.
 - Use R3F with one scene stepper; simulation and editor validation stay in pure TypeScript under `src/game/sim` so movement and rules can be tested without WebGL.
 - Store demo profile, settings and explicitly saved maps in versioned local storage only; never connect a backend for this prototype.
 - Keep scene material colors in `--scene-*` CSS tokens and UI colors in semantic theme tokens so art direction is centralized.

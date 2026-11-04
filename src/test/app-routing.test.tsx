@@ -18,4 +18,8 @@ describe("App routing", () => {
     const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
     expect(router.matchRoutes("/game").at(-1)?.routeId).toBe("/game");
   });
+  it("matches the independent sandbox at /sandbox", () => {
+    const router = createRouter({ routeTree, context: { queryClient: new QueryClient() } });
+    expect(router.matchRoutes('/sandbox').at(-1)?.routeId).toBe('/sandbox');
+  });
 });

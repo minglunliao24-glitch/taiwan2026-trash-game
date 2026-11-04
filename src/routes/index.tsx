@@ -144,6 +144,7 @@ function Index() {
                 在漂浮的 3D 沙盒島嶼上自由探索、蓋房子、設計地圖。台灣2026廢遊戲正在努力開發中。
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
+                <Button asChild variant="secondary" className="min-h-12 px-6 font-bold shadow-block"><Link to="/sandbox">漂浮島嶼・單人測試版</Link></Button>
                 <Button asChild className="min-h-12 px-6 font-bold shadow-block"><Link to="/game">開始遊玩</Link></Button>
                 <a href="#intro" className="inline-flex min-h-12 items-center rounded-2xl border-2 border-foreground/15 bg-card px-6 font-bold">
                   了解遊戲
@@ -163,6 +164,7 @@ function Index() {
         {/* Intro */}
         <section id="intro" className="mx-auto max-w-6xl px-4 py-20">
           <SectionTitle kicker="About" title="遊戲介紹" />
+          <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b pb-6"><div><h3 className="text-xl font-black">漂浮島嶼沙盒・單人測試版</h3><p className="mt-2 text-muted-foreground">探索、堆疊方塊、蓋一間自己的小厝；世界僅儲存在這台瀏覽器，線上功能開發中。</p></div><Button asChild variant="secondary"><Link to="/sandbox">進入單人測試版</Link></Button></div>
           <div className="mb-8 flex flex-wrap items-center justify-between gap-4 border-b pb-6"><div><h3 className="text-xl font-black">垃圾車來了！分類街機試玩版</h3><p className="mt-2 text-muted-foreground">60 秒收集垃圾、選對分類桶，連擊越高分數越高。原有沙盒企劃持續開發中。</p></div><Button asChild><Link to="/game">開始遊玩</Link></Button></div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {[
@@ -257,7 +259,8 @@ function Index() {
           <div className="rounded-3xl bg-brand p-8 text-center text-primary-foreground shadow-block md:p-14">
             <h2 className="text-3xl font-black md:text-4xl">遊戲入口</h2>
              <p className="mx-auto mt-3 max-w-md opacity-90">垃圾分類街機・試玩版。60 秒挑戰一般垃圾、資源回收與廚餘分類；不需帳號、不需付費。</p>
-            <div className="mt-8 flex justify-center">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
+               <Button asChild variant="secondary" className="min-h-14 px-8 text-lg font-black"><Link to="/sandbox">漂浮島嶼・單人測試版</Link></Button>
                <Button asChild variant="outline" className="min-h-14 px-8 text-lg font-black text-foreground"><Link to="/game">開始遊玩</Link></Button>
             </div>
           </div>

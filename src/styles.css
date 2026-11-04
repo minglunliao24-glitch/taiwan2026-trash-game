@@ -399,3 +399,41 @@
   .sorting-bin { height: 135px; padding-top: 8px; }
   .sorting-bin-sample { display: none; }
 }
+
+/* Single-player building HUD, isolated from arcade and legacy editor. */
+.sandbox-shell { height: 100dvh; min-height: 420px; overscroll-behavior: none; }
+.sandbox-shell .game-brand { background: var(--game-glass); border-radius: 8px; padding-right: 10px; }
+.sandbox-shell .game-fallback { z-index: 40; }
+.sandbox-camera { inset: 76px 0 190px; }
+.sandbox-commands { position: absolute; right: 24px; top: 90px; display: flex; gap: 8px; z-index: 4; }
+.sandbox-commands button { height: 44px; width: 44px; background: var(--game-glass); }
+.sandbox-target { position: absolute; bottom: 166px; left: 50%; transform: translateX(-50%); background: var(--game-glass); padding: 6px 12px; border-radius: 4px; font-size: 12px; pointer-events: none; }
+.sandbox-hotbar { position: absolute; bottom: max(66px, calc(env(safe-area-inset-bottom) + 50px)); left: 50%; transform: translateX(-50%); display: flex; gap: 6px; z-index: 4; }
+.sandbox-hotbar button { height: 64px; min-width: 68px; padding: 8px; display: grid; grid-template-columns: 16px 1fr; gap: 4px; border: 2px solid var(--border); box-shadow: var(--game-shadow); }
+.sandbox-hotbar small { grid-column: 1 / -1; font-size: 10px; }
+.sandbox-actions { position: absolute; right: 24px; bottom: max(66px, calc(env(safe-area-inset-bottom) + 50px)); display: flex; gap: 8px; z-index: 4; }
+.sandbox-actions button { width: 64px; height: 64px; flex-direction: column; font-size: 12px; box-shadow: var(--game-shadow); }
+.sandbox-help ul { display: grid; gap: 14px; margin-bottom: 24px; font-size: 13px; line-height: 1.7; }
+.sandbox-shell .game-toast { top: 148px; }
+@media (max-width: 800px) {
+  .sandbox-shell .game-header { flex-wrap: wrap; }
+  .sandbox-shell .game-brand { font-size: 12px; }
+  .sandbox-shell .game-balance { padding: 6px 8px; }
+  .sandbox-shell .game-balance strong { font-size: 15px; }
+  .sandbox-shell .world-location { top: 75px; left: 12px; padding: 8px 10px; }
+  .sandbox-commands { top: 75px; right: 12px; gap: 4px; }
+  .sandbox-hotbar { bottom: max(200px, calc(env(safe-area-inset-bottom) + 184px)); }
+  .sandbox-hotbar button { height: 56px; min-width: 64px; }
+  .sandbox-target { bottom: 266px; white-space: nowrap; }
+  .sandbox-actions { right: 16px; bottom: max(68px, calc(env(safe-area-inset-bottom) + 50px)); display: grid; grid-template-columns: 64px 64px; }
+  .sandbox-actions button:last-child { grid-column: 2; }
+  .sandbox-shell .touch-stick { left: 18px; bottom: max(76px, calc(env(safe-area-inset-bottom) + 58px)); width: 112px; height: 112px; }
+  .sandbox-camera { bottom: 266px; }
+}
+@media (max-height: 600px) and (min-width: 601px) {
+  .sandbox-hotbar { bottom: 40px; }
+  .sandbox-actions { bottom: 40px; display: flex; }
+  .sandbox-shell .touch-stick { bottom: 40px; width: 100px; height: 100px; }
+  .sandbox-target { bottom: 114px; }
+  .sandbox-camera { bottom: 120px; }
+}
