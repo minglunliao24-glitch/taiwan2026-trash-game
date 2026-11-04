@@ -43,12 +43,11 @@ export default function Sandbox() {
   const act = useCallback((remove: boolean) => {
     if (!started || help || reset || failed) return;
     if (!aim) { setNotice('走近島中央的建造網格，再面向想蓋的位置。'); return; }
-    setBlocks(old => {
-      const next = remove ? removeBlock(old, aim.x, aim.z) : placeBlock(old, aim.x, aim.z, tool);
-      return next;
-    });
-    setNotice(remove ? '已拆除目標最上層方塊；空格不會改變。' : '已放置方塊；每格最多堆疊四層。');
-  }, [started, help, reset, failed, aim, tool]);
+    const next = remove ? removeBlock(blocks, aim.x, aim.z) : placeBlock(blocks, aim.x, aim.z, tool);
+    if (next === blocks) { setNotice(remove ? '這個位置沒有可拆除的方塊。' : '這格已達四層上限，請換一個位置。'); return; }
+    setBlocks(next);
+    setNotice(remove ? '已拆除目標最上層方塊。' : '已放置方塊，正在保存世界。');
+  }, [started, help, reset, failed, aim, tool, blocks]);
   const action = useRef(act);
   useEffect(() => { action.current = act; }, [act]);
   useEffect(() => {
